@@ -6,7 +6,7 @@ import HomePage from './pages/homepage/homepage.component';
 import ShopPage from './pages/shoppage/shoppage.component';
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
 import Header from './components/header/header.component';
-import { auth } from './firebase/firebase.utils';
+import { auth, createUsersProfileDocument} from './firebase/firebase.utils';
 
 
 
@@ -22,10 +22,10 @@ class App extends React.Component {
 
   unSubscribeFromAuth = null;
 
+  // Our app listening to authentication state changes on our firebabse backend
   componentDidMount() {
-      this.unSubscribeFromAuth = auth.onAuthStateChanged(user => {
-        this.setState({ currentUser: user })
-        console.log(user);
+      this.unSubscribeFromAuth = auth.onAuthStateChanged(async user => {
+       createUsersProfileDocument(user);
     });
   }
     
